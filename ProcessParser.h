@@ -80,7 +80,7 @@ std::string ProcessParser::getCmd(std::string pid)
     return command;
 }
 
-string ProcessParser::getVmsSize(string pid)
+std::string ProcessParser::getVmSize(string pid)
 {
     string line;
     //Declaring search attribute for file
