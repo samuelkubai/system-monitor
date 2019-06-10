@@ -39,23 +39,23 @@ string Process::getPid()const {
     return this->pid;
 }
 
-string getUser()const {
+string Process::getUser()const {
     return this->user;
 }
 
-string getCmd() const {
+string Process::getCmd() const {
     return this->cmd;
 }
 
-int getCpu() const {
+int Process::getCpu() const {
     return this->cpu;
 }
 
-int getMem() const {
+int Process::getMem() const {
     return this->mem;
 }
 
-string getUpTime() const {
+string Process::getUpTime() const {
     return this->upTime;
 }
 
