@@ -80,27 +80,28 @@ std::string ProcessParser::getCmd(std::string pid)
     return command;
 }
 
-std::string ProcessParser::getVmSize(string pid)
+string ProcessParser::getVmsSize(string pid)
 {
-    std::ifstream stream = Util::getStream(Path::basePath() + pid + Path::statusPath());
-    std::string stat;
-    float vmSize;
-    std::string identifier("VmSize");
-
-    // Look for the line with the VM size
-    while (std::getline(stream, stat))
-    {
-
-        if (stat.find(identifier) == std::string::npos)
-        {
-            std::istringstream buf(stat);
-            std::istream_iterator<std::string> beg(buf), end;
+    string line;
+    //Declaring search attribute for file
+    string name = "VmData";
+    string value;
+    float result;
+    // Opening stream for specific file
+    ifstream stream = Util::getStream((Path::basePath() + pid + Path::statusPath()));
+    while(std::getline(stream, line)){
+        // Searching line by line
+        if (line.compare(0, name.size(),name) == 0) {
+            // slicing string line on ws for values using sstream
+            istringstream buf(line);
+            istream_iterator<string> beg(buf), end;
             vector<string> values(beg, end);
-            vmSize = (stof(values[1]) / float(1024));
+            //conversion kB -> GB
+            result = (stof(values[1])/float(1024*1024));
+            break;
         }
     }
-
-    return to_string(vmSize);
+    return to_string(result);
 }
 
 std::string ProcessParser::getCpuPercent(std::string pid)
@@ -254,7 +255,6 @@ vector<string> ProcessParser::getSysCpuPercent(string coreNumber)
 
 float get_sys_active_cpu_time(vector<string> values)
 {
-    return 1.0;
     return (stof(values[S_USER]) +
             stof(values[S_NICE]) +
             stof(values[S_SYSTEM]) +
@@ -267,7 +267,6 @@ float get_sys_active_cpu_time(vector<string> values)
 
 float get_sys_idle_cpu_time(vector<string>values)
 {
-    return 1.0;
     return (stof(values[S_IDLE]) + stof(values[S_IOWAIT]));
 }
 
