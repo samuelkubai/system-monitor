@@ -1,7 +1,10 @@
 #ifndef UTIL
 #define UTIL
-#include <string>
+#include <iostream>
 #include <fstream>
+#include <sstream>
+#include <string>
+#include <iterator>
 
 using namespace std;
 
@@ -12,7 +15,14 @@ public:
     static std::string convertToTime(long int input_seconds);
     static std::string getProgressBar(std::string percent);
     static std::ifstream getStream(std::string path);
+    static vector<string> splitByWhiteSpace(string stringToSplit);
 };
+
+std::vector<std::string> Util::splitByWhiteSpace(std::string stringToSplit){
+       istringstream buf(stringToSplit);
+       istream_iterator<string> beg(buf),end;
+       return std::vector<std::string>(beg,end);
+}
 
 std::string Util::convertToTime(long int input_seconds) {
     long minutes = input_seconds / 60;
